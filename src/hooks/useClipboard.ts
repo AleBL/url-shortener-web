@@ -26,3 +26,13 @@ export function useClipboard() {
 
   return { copied, copy };
 }
+
+/** Selects the element's text, so the user can copy it with Ctrl+C. */
+export function selectText(element: HTMLElement) {
+  const selection = window.getSelection();
+  if (!selection) return;
+  const range = document.createRange();
+  range.selectNodeContents(element);
+  selection.removeAllRanges();
+  selection.addRange(range);
+}

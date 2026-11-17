@@ -32,3 +32,13 @@ export function validateUrl(url: string): boolean {
   // normalization would otherwise turn into https://abc.
   return parsed.hostname.split(".").filter(Boolean).length >= 2;
 }
+
+/** True for an absolute http(s) URL, the only kind the UI renders as a link. */
+export function isHttpUrl(value: string): boolean {
+  try {
+    const { protocol } = new URL(value);
+    return protocol === "http:" || protocol === "https:";
+  } catch {
+    return false;
+  }
+}

@@ -1,4 +1,5 @@
 import { LinkIcon } from "lucide-react";
+import { ShortenForm } from "./components/ShortenForm";
 import { APP_NAME } from "./config";
 import { LanguageSwitch } from "./i18n/LanguageSwitch";
 import { useI18n } from "./i18n/useI18n";
@@ -32,6 +33,8 @@ export default function App() {
             {t.subtitle}
           </p>
         </div>
+
+        <ShortenForm />
       </main>
     </div>
   );

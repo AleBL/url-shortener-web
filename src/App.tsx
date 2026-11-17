@@ -1,7 +1,10 @@
 import { LinkIcon } from "lucide-react";
 import { APP_NAME } from "./config";
+import { useI18n } from "./i18n/useI18n";
 
 export default function App() {
+  const { t } = useI18n();
+
   return (
     <div className="relative isolate flex min-h-dvh flex-col overflow-hidden">
       <div
@@ -21,10 +24,10 @@ export default function App() {
       <main className="mx-auto w-full max-w-160 flex-1 px-4 pt-16 pb-24 sm:px-6 sm:pt-24">
         <div className="text-center">
           <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-            Encurte qualquer link em segundos
+            {t.title}
           </h1>
           <p className="mt-4 text-base text-pretty text-zinc-600 sm:text-lg dark:text-zinc-400">
-            Cole o endereço e aperte Encurtar.
+            {t.subtitle}
           </p>
         </div>
       </main>

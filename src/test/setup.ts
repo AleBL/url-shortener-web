@@ -10,4 +10,5 @@ afterEach(() => {
   document.documentElement.removeAttribute("lang");
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
+  vi.unstubAllEnvs();
 });

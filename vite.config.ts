@@ -15,7 +15,9 @@ function assertApiUrl(mode: string) {
     );
   }
   if (url.protocol !== "http:" && url.protocol !== "https:") {
-    throw new Error(`VITE_API_URL must use http or https, got "${VITE_API_URL}".`);
+    throw new Error(
+      `VITE_API_URL must use http or https, got "${VITE_API_URL}".`,
+    );
   }
 }
 

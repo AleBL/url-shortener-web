@@ -1,0 +1,5 @@
+package-lock.json
+
+# Local-only files, kept out of git via .git/info/exclude
+CLAUDE.md
+docs/PLAN.md

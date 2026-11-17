@@ -1,5 +1,6 @@
 import { LinkIcon } from "lucide-react";
 import { APP_NAME } from "./config";
+import { LanguageSwitch } from "./i18n/LanguageSwitch";
 import { useI18n } from "./i18n/useI18n";
 
 export default function App() {
@@ -12,13 +13,14 @@ export default function App() {
         className="pointer-events-none absolute top-8 left-1/2 -z-10 h-80 w-3xl max-w-[150vw] -translate-x-1/2 rounded-full bg-violet-300/30 blur-3xl dark:bg-violet-500/15"
       />
 
-      <header className="mx-auto flex w-full max-w-160 items-center justify-between px-4 py-5 sm:px-6">
+      <header className="mx-auto flex w-full max-w-160 items-center justify-between px-4 py-3 sm:px-6">
         <span className="flex items-center gap-2 text-lg font-semibold tracking-tight">
           <span className="flex size-8 items-center justify-center rounded-lg bg-violet-600 text-white shadow-sm dark:bg-violet-400 dark:text-zinc-950">
             <LinkIcon aria-hidden="true" className="size-4" strokeWidth={2.5} />
           </span>
           {APP_NAME}
         </span>
+        <LanguageSwitch />
       </header>
 
       <main className="mx-auto w-full max-w-160 flex-1 px-4 pt-16 pb-24 sm:px-6 sm:pt-24">

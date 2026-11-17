@@ -2,6 +2,23 @@
 
 @theme {
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --animate-card-in: card-in 200ms ease-out;
+  --animate-pop-in: pop-in 150ms ease-out;
+
+  @keyframes card-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+  }
+
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+  }
 }
 
 @layer base {

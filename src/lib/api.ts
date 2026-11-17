@@ -1,4 +1,5 @@
 import { API_URL } from "../config";
+import { isHttpUrl } from "./url";
 
 /** Long enough to cover a Render cold start, which can take about a minute. */
 export const REQUEST_TIMEOUT_MS = 90_000;
@@ -86,11 +87,5 @@ export function parseRetryAfter(header: string | null): number {
 function readShortUrl(body: unknown): string | undefined {
   if (typeof body !== "object" || body === null) return undefined;
   const value = (body as Record<string, unknown>).short_url;
-  if (typeof value !== "string") return undefined;
-  try {
-    const { protocol } = new URL(value);
-    return protocol === "http:" || protocol === "https:" ? value : undefined;
-  } catch {
-    return undefined;
-  }
+  return typeof value === "string" && isHttpUrl(value) ? value : undefined;
 }

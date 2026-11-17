@@ -10,6 +10,7 @@ import {
 import type { Messages } from "../i18n/messages";
 import { useI18n } from "../i18n/useI18n";
 import { shortenUrl, warmUp, type ShortenError } from "../lib/api";
+import { findInHistory, type HistoryItem } from "../lib/history";
 import { normalizeUrl, validateUrl } from "../lib/url";
 import { ResultCard } from "./ResultCard";
 
@@ -17,7 +18,15 @@ export const COLD_START_NOTICE_MS = 3000;
 
 type FormError = { kind: "invalid_url" } | ShortenError;
 
-type Result = { shortUrl: string; originalUrl: string };
+// `id` remounts the card even when the same link shows again, so focus
+// returns to Copy every time.
+type Result = { id: number; shortUrl: string; originalUrl: string };
+
+type ShortenFormProps = {
+  /** Links already shortened in this browser; a match skips the API. */
+  history?: HistoryItem[];
+  onShortened?: (item: HistoryItem) => void;
+};
 
 function errorText(t: Messages, error: FormError, seconds: number): string {
   switch (error.kind) {
@@ -35,11 +44,12 @@ function errorText(t: Messages, error: FormError, seconds: number): string {
   }
 }
 
-export function ShortenForm() {
+export function ShortenForm({ history = [], onShortened }: ShortenFormProps) {
   const { t } = useI18n();
   const messageId = useId();
   const input = useRef<HTMLInputElement>(null);
   const warmedUp = useRef(false);
+  const resultCount = useRef(0);
 
   const [value, setValue] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -79,6 +89,12 @@ export function ShortenForm() {
     if (error && error.kind !== "rate_limited") setError(null);
   }
 
+  function showResult(shortUrl: string, originalUrl: string) {
+    resultCount.current += 1;
+    setResult({ id: resultCount.current, shortUrl, originalUrl });
+    setValue("");
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (submitting || cooldown > 0) return;
@@ -92,14 +108,27 @@ export function ShortenForm() {
     }
 
     setError(null);
+
+    // Same link as before: show the saved one, which saves a request and
+    // avoids a second code for the same URL.
+    const saved = findInHistory(history, url);
+    if (saved) {
+      showResult(saved.shortUrl, saved.originalUrl);
+      return;
+    }
+
     setSubmitting(true);
     const outcome = await shortenUrl(url);
     setSubmitting(false);
     setSlow(false);
 
     if (outcome.ok) {
-      setResult({ shortUrl: outcome.shortUrl, originalUrl: url });
-      setValue("");
+      onShortened?.({
+        shortUrl: outcome.shortUrl,
+        originalUrl: url,
+        createdAt: new Date().toISOString(),
+      });
+      showResult(outcome.shortUrl, url);
       return;
     }
 
@@ -192,7 +221,7 @@ export function ShortenForm() {
       <div aria-live="polite" className="mt-6">
         {result && (
           <ResultCard
-            key={result.shortUrl}
+            key={result.id}
             shortUrl={result.shortUrl}
             originalUrl={result.originalUrl}
           />

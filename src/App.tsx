@@ -1,11 +1,14 @@
 import { LinkIcon } from "lucide-react";
+import { HistoryList } from "./components/HistoryList";
 import { ShortenForm } from "./components/ShortenForm";
 import { APP_NAME } from "./config";
+import { useHistory } from "./hooks/useHistory";
 import { LanguageSwitch } from "./i18n/LanguageSwitch";
 import { useI18n } from "./i18n/useI18n";
 
 export default function App() {
   const { t } = useI18n();
+  const history = useHistory();
 
   return (
     <div className="relative isolate flex min-h-dvh flex-col overflow-hidden">
@@ -34,7 +37,8 @@ export default function App() {
           </p>
         </div>
 
-        <ShortenForm />
+        <ShortenForm history={history.items} onShortened={history.add} />
+        <HistoryList items={history.items} onClear={history.clear} />
       </main>
     </div>
   );

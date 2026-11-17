@@ -1,22 +1,12 @@
 import { Check, Copy, ExternalLink } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { useClipboard } from "../hooks/useClipboard";
+import { selectText, useClipboard } from "../hooks/useClipboard";
 import { useI18n } from "../i18n/useI18n";
 
 type ResultCardProps = {
   shortUrl: string;
   originalUrl: string;
 };
-
-// Selects the element's text so the user can copy it with Ctrl+C.
-function selectText(element: HTMLElement) {
-  const selection = window.getSelection();
-  if (!selection) return;
-  const range = document.createRange();
-  range.selectNodeContents(element);
-  selection.removeAllRanges();
-  selection.addRange(range);
-}
 
 export function ResultCard({ shortUrl, originalUrl }: ResultCardProps) {
   const { t } = useI18n();

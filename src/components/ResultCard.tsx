@@ -2,6 +2,7 @@ import { Check, Copy, ExternalLink } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { selectText, useClipboard } from "../hooks/useClipboard";
 import { useI18n } from "../i18n/useI18n";
+import { readableUrl } from "../lib/url";
 
 type ResultCardProps = {
   shortUrl: string;
@@ -35,10 +36,10 @@ export function ResultCard({ shortUrl, originalUrl }: ResultCardProps) {
         {shortUrl.replace(/^https?:\/\//, "")}
       </p>
       <p
-        title={originalUrl}
+        title={readableUrl(originalUrl)}
         className="mt-1 truncate text-sm text-zinc-600 dark:text-zinc-400"
       >
-        {originalUrl}
+        {readableUrl(originalUrl)}
       </p>
 
       <div className="mt-4 flex flex-wrap gap-2">

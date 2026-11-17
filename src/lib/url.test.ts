@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { MAX_URL_BYTES, normalizeUrl, validateUrl } from "./url";
+import { MAX_URL_BYTES, normalizeUrl, readableUrl, validateUrl } from "./url";
 
 describe("normalizeUrl", () => {
   test.each([
@@ -67,5 +67,26 @@ describe("validateUrl length limit", () => {
     expect(overLimit.length).toBeLessThan(MAX_URL_BYTES);
     expect(validateUrl(overLimit)).toBe(false);
     expect(validateUrl(base + "ã".repeat(1017))).toBe(true);
+  });
+});
+
+describe("readableUrl", () => {
+  test.each([
+    {
+      url: "https://pt.wikipedia.org/wiki/S%C3%A3o_Paulo",
+      expected: "https://pt.wikipedia.org/wiki/São_Paulo",
+    },
+    // Reserved characters stay encoded, so the text still means the same URL.
+    {
+      url: "https://x.com/a%2Fb?q=1%262",
+      expected: "https://x.com/a%2Fb?q=1%262",
+    },
+    { url: "https://x.com/100%", expected: "https://x.com/100%" },
+    {
+      url: "https://x.com/%E2%80%AEfdp.exe",
+      expected: "https://x.com/fdp.exe",
+    },
+  ])("$url -> $expected", ({ url, expected }) => {
+    expect(readableUrl(url)).toBe(expected);
   });
 });

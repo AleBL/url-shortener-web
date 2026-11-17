@@ -3,6 +3,7 @@ import { useId, useRef } from "react";
 import { selectText, useClipboard } from "../hooks/useClipboard";
 import { useI18n } from "../i18n/useI18n";
 import type { HistoryItem } from "../lib/history";
+import { readableUrl } from "../lib/url";
 
 type HistoryListProps = {
   items: HistoryItem[];
@@ -38,10 +39,10 @@ function HistoryRow({ item }: { item: HistoryItem }) {
           <span className="sr-only">{t.newTabHint}</span>
         </a>
         <p
-          title={item.originalUrl}
+          title={readableUrl(item.originalUrl)}
           className="truncate text-sm text-zinc-600 dark:text-zinc-400"
         >
-          {displayUrl(item.originalUrl)}
+          {displayUrl(readableUrl(item.originalUrl))}
         </p>
       </div>
       <button

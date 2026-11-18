@@ -1,6 +1,6 @@
 import { DEFAULT_LOCALE, isLocale, type Locale } from "./messages";
 
-export const LOCALE_STORAGE_KEY = "curto:locale";
+export const LOCALE_STORAGE_KEY = "url-shortener:locale";
 
 // Maps a BCP 47 tag to a supported locale: any Portuguese variant becomes
 // pt-BR, any English variant becomes en, everything else is unsupported.

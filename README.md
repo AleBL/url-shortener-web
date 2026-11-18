@@ -1,4 +1,4 @@
-# Curto (url-shortener-web)
+# URL Shortener (url-shortener-web)
 
 Web frontend for the [URL shortener API](https://github.com/AleBL/url-shortner-api-go). Paste a link, press Enter, press Enter again to copy the short link.
 

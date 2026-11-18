@@ -1,6 +1,6 @@
 import { isHttpUrl } from "./url";
 
-export const HISTORY_STORAGE_KEY = "curto:history:v1";
+export const HISTORY_STORAGE_KEY = "url-shortener:history:v1";
 export const HISTORY_LIMIT = 10;
 
 export type HistoryItem = {

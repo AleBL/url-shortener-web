@@ -42,3 +42,21 @@ export function isHttpUrl(value: string): boolean {
     return false;
   }
 }
+
+// Bidirectional control characters can make a decoded URL read differently
+// from where it points, so they never reach the screen.
+const BIDI_CONTROLS = /[‪-‮⁦-⁩]/g;
+
+/**
+ * For display only: decodes %-escapes so "S%C3%A3o_Paulo" reads "São_Paulo".
+ * Reserved characters stay encoded, and malformed input comes back as is.
+ */
+export function readableUrl(url: string): string {
+  let decoded: string;
+  try {
+    decoded = decodeURI(url);
+  } catch {
+    decoded = url;
+  }
+  return decoded.replace(BIDI_CONTROLS, "");
+}
